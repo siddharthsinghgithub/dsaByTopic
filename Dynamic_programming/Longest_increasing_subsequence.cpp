@@ -3,40 +3,31 @@
   For example, the length of LIS for {10, 22, 9, 33, 21, 50, 41, 60, 80} is 6 and LIS is {10, 22, 33, 50, 60, 80}.
 */
 
-#include<iostream>
-#include<stdio.h>
-#include<stdlib.h>
+#include<bits/stdc++.h>
+
 using namespace std;
 
-int LIS( int arr[], int n )
-{
-    int *lis, i, j, max = 0;
-    lis = (int*) malloc ( sizeof( int ) * n );
+int LIS( int array[] , int n ){
 
-    /* Initialize LIS values for all indexes */
-    for (i = 0; i < n; i++ )
-        lis[i] = 1;
+    int lis[n];
+    for ( auto i=0;i< n ;i++) lis[i] = 1;
 
-    /* Compute optimized LIS values in bottom up manner */
-    for (i = 1; i < n; i++ )
-        for (j = 0; j < i; j++ )
-            if ( arr[i] > arr[j] && lis[i] < lis[j] + 1)
+    for(int i=0;i < n ;i++){
+
+        for(int j=0;j<i;j++){
+
+            if(array[i] > array[j] and lis[i] < lis[j] + 1)
                 lis[i] = lis[j] + 1;
+        }
+    }
 
-    /* Pick maximum of all LIS values */
-    for (i = 0; i < n; i++ )
-        if (max < lis[i])
-            max = lis[i];
-
-    /* Free memory to avoid memory leak */
-    free(lis);
-
-    return max;
+    int k = *max_element(lis, lis+n);
+    return k;
 }
 int main(){
-  int x , array[5]={1,4,6,8,2};
+  int x , array[] = {2,3,1,4,6,8,2};
   int n = sizeof(array)/sizeof(array[0]);
-  cout<<n;
+
   x = LIS(array,n);
   cout<<x;
   return 0;
