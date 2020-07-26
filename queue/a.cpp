@@ -1,38 +1,54 @@
-#include <bits/stdc++.h>
+// CPP program to find two numbers with 
+// given Sum and XOR such that value of 
+// first number is minimum. 
+#include <iostream> 
+using namespace std; 
 
-using namespace std;
+// Function that takes in the sum and XOR 
+// of two numbers and generates the two 
+// numbers such that the value of X is 
+// minimized 
+void compute(unsigned long int S, 
+			unsigned long int X) 
+{ 
+	unsigned long int A = (S - X)/2; 
 
-int main()
-{
-	int N;
-	cin >> N;
-	int A[N];
+	int a = 0, b = 0; 
 
-	for (int i = 0; i < N; i++)
-	{
-		cin >> A[i];
-	}
+	// Traverse through all bits 
+	for (int i=0; i<8*sizeof(S); i++) 
+	{ 
+		unsigned long int Xi = (X & (1 << i)); 
+		unsigned long int Ai = (A & (1 << i)); 
+		if (Xi == 0 && Ai == 0) 
+		{ 
+			// Let us leave bits as 0. 
+		} 
+		else if (Xi == 0 && Ai > 0) 
+		{ 
+			a = ((1 << i) | a); 
+			b = ((1 << i) | b); 
+		} 
+		else if (Xi > 0 && Ai == 0) 
+		{ 
+			a = ((1 << i) | a); 
 
-	vector<int> vis(N, 0);
-	int S = N;
-	for (int i = 0; i < S; i++)
-	{
+			// We leave i-th bit of b as 0. 
+		} 
+		else // (Xi == 1 && Ai == 1) 
+		{ 
+			cout << "Not Possible"; 
+			return; 
+		} 
+	} 
 
-		// cout<<A[i]<<N<<endl;
-		vis[A[i]] = 1;
+	cout << "a = " << a << endl << "b = " << b; 
+} 
 
-		if (N == A[i])
-		{
-			while (vis[N] == 1)
-			{
-				cout << N << " ";
-				vis[N] = -1;
-				N--;
-			}
-		}
-
-		cout << endl;
-	}
-
-	return 0;
-}
+// Driver function 
+int main() 
+{ 
+	unsigned long int S = 1870807699, X = 259801747; 
+	compute(S, X); 
+	return 0; 
+} 
